@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Hand Tracking with MediaPipe and Three.js</title>
+    <style>
+      #video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video" autoplay playsinline muted></video>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.122.0/build/three.min.js"></script>
+    <script>
+      // Set up the Three.js scene, camera, and renderer
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#canvas"), alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+
+      // Set up the MediaPipe Hands library
+      const hands = new Hands({
+        locateFile: (file) => {
+          return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        },
+      });
+      hands.setOptions({
+        maxNumHands: 1,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+
+      // Create a mesh to represent the hand in the scene
+      const handMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(0.05, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0xff0000 })
+      );
+      scene.add(handMesh);
+
+      // Set up the camera and start the MediaPipe hands detector
+      const videoElement = document.querySelector("#video");
+      videoElement.autoplay = true;
+      videoElement.muted = true;
+      videoElement.playsInline = true;
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          videoElement.srcObject = stream;
+          hands.send({ image: videoElement });
+        })
+        .catch((error) => {
+          console.error("Error accessing media devices:", error);
+        });
+
+      // Update the hand mesh position based on the detected hand landmarks
+      hands.onResults((results) => {
+        if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+          const landmarks = results.multiHandLandmarks[0];
+          handMesh.position.x = landmarks[0].x;
+          handMesh.position.y = landmarks[0].y;
+          handMesh.position.z = landmarks[0].z;
+        }
+        requestAnimationFrame(render);
+      });
+
+      // Render the scene
+      function render() {
+        renderer.render(scene, camera);
+      }
+    </script>
+  </body>
+</html>
