@@ -5,15 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ThreeJSHands</title>
 
+    <video class="input_video"></video>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin=""></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin=""></script>
+
+    <style>
+        .input_video {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            width: 200px; /* Adjust the width as needed */
+            height: 150px; /* Adjust the height as needed */
+            border: 1px solid #000; /* Optional: Add a border for visibility */
+        }
+    </style>
+    
 </head>
 <body>
     <div class="container">
-        <video class="input_video" hidden="true"></video>
+        <!-- <video class="input_video" hidden = "true" ></video> -->
     </div>
     <script src="main.js"></script>
 </body>
