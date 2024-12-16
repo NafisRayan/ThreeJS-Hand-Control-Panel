@@ -17,6 +17,12 @@ To run the project, follow these steps:
 - `index.html`: The main HTML file that loads the project.
 - `main.js`: The JavaScript file that contains the logic for the 3D visualization, including the setup of the THREE.js scene, the MediaPipe Hands model, and the logic for updating the 3D objects based on the detected hand landmarks.
 
+## Screenshots  
+
+Here are some screenshots of the **GoFlix** app showcasing its key features and design:  
+
+<img src="handControl.png" alt="GoFlix Home Screen" width="250" />  
+
 ## Dependencies
 
 - **THREE.js**: A JavaScript library used for creating and displaying animated 3D computer graphics in a web browser.
