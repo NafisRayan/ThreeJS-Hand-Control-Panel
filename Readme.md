@@ -19,7 +19,7 @@ To run the project, follow these steps:
 
 ## Screenshots  
 
-Here are some screenshots of the **GoFlix** app showcasing its key features and design:  
+Here are some screenshots of the app showcasing its key features and design:  
 
 <img src="handControl.png" alt="GoFlix Home Screen" width="250" />  
 
